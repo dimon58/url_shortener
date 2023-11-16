@@ -14,9 +14,11 @@ app = FastAPI(debug=DEBUG)
 
 
 @app.get("/generate")
-async def generate_short_url(url: str):
+async def generate_short_url(url: str, request: Request):
+    meta = dict(request.query_params)
+    meta.pop("url")
     async with async_session_maker() as db_session, db_session.begin():
-        short_path = await ShortUrl.generate(db_session, url)
+        short_path = await ShortUrl.generate(db_session, url, meta)
         short_url = f"{BASE_URL}/go/{short_path}"
 
         return Response(status_code=200, content=short_url)
