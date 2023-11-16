@@ -1,5 +1,4 @@
 import logging
-from typing import Self
 
 from sqlalchemy import Column, select, exists
 from sqlalchemy.ext.asyncio import AsyncSession
