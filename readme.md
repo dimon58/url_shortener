@@ -28,7 +28,6 @@
 
    ```shell
    pip install -r requirements.txt
-   pip install psycopg_binary
    ```
 
 4. Применяем миграции `alembic upgrade head`

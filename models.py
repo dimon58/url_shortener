@@ -18,7 +18,7 @@ class ShortUrl(BaseModel):
     full_url: Mapped[str] = Column(sqltypes.String, nullable=False)
 
     @classmethod
-    async def get_full_url(cls, db_session: AsyncSession, short_path: str) -> Self:
+    async def get_full_url(cls, db_session: AsyncSession, short_path: str):
         stmt = select(cls).where(cls.short_path == short_path)
         return await db_session.scalar(stmt)
 
