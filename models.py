@@ -47,6 +47,7 @@ class ShortUrl(BaseModel):
 class Click(BaseModel):
     short_path: Mapped[str] = Column(sqltypes.VARCHAR(8), nullable=False)
 
+    query_params: Mapped[dict] = Column(sqltypes.JSON, default=dict)
     headers: Mapped[dict] = Column(sqltypes.JSON, default=dict)
     cookies: Mapped[dict] = Column(sqltypes.JSON, default=dict)
     success: Mapped[bool] = Column(sqltypes.Boolean)

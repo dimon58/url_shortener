@@ -31,6 +31,7 @@ async def redirect(path: str, request: Request):
 
         click = Click(
             short_path=path,
+            query_params=dict(request.query_params),
             headers=dict(request.headers),
             cookies=request.cookies,
             success=short_url is not None
@@ -40,7 +41,7 @@ async def redirect(path: str, request: Request):
     if short_url is None:
         raise HTTPException(status_code=404)
 
-    return RedirectResponse(short_url.full_url, status_code=308)
+    return RedirectResponse(short_url.full_url, status_code=307)
 
 
 if __name__ == '__main__':
