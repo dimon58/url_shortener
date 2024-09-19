@@ -12,13 +12,14 @@ URL_LENGTH = 6  # 62**6 = 56800235584 unique urls
 LOGGING_FOLDER = BASE_DIR / "logs"
 LOGGING_FOLDER.mkdir(exist_ok=True)
 LOG_FILE = LOGGING_FOLDER / "logs.log"
-LOGGING_FORMAT = "[%(name)s:%(filename)s:%(funcName)s:%(lineno)d:%(asctime)s:%(levelname)s] %(message)s"
+LOGGING_FORMAT = "[%(name)s:%(filename)s:%(funcName)s:%(lineno)d:%(asctime)s.%(msecs)03d:%(levelname)s] %(message)s"
 LOGGING_DATE_FORMAT = "%d-%m-%Y %H:%M:%S"
 LOGGING_CONFIG = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
         "default": {
+            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
             "format": LOGGING_FORMAT,
             "datefmt": LOGGING_DATE_FORMAT,
         },
@@ -28,6 +29,7 @@ LOGGING_CONFIG = {
             "datefmt": LOGGING_DATE_FORMAT,
             "field_styles": {
                 "asctime": {"color": "green"},
+                "msecs": {"color": "green"},
                 "hostname": {"color": "magenta"},
                 "name": {"color": "blue"},
                 "programname": {"color": "cyan"},
@@ -41,10 +43,11 @@ LOGGING_CONFIG = {
             "formatter": "colored",
         },
         "file_handler": {
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.TimedRotatingFileHandler",
             "formatter": "default",
             "filename": LOG_FILE,
             "encoding": "utf-8",
+            "when": "W0",
         },
     },
     "loggers": {
