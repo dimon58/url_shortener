@@ -1,6 +1,12 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# Переменные окружения из файла .env
+# Загружаем без перезаписи, чтобы ими можно было управлять из вне
+load_dotenv(".env", override=False)
+
 DEBUG = False
 BASE_DIR = Path(__file__).resolve().parent
 
