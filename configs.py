@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 DEBUG = False
@@ -6,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent
 BASE_URL = ""
 REDIRECT_PATH = "click"
 
-DB_URL = "sqlite+aiosqlite:///db.sqlite3"
+DB_URL = os.environ.get("DB_URL", "sqlite+aiosqlite:///db.sqlite3")
 URL_LENGTH = 6  # 62**6 = 56800235584 unique urls
 
 LOGGING_FOLDER = BASE_DIR / "logs"
