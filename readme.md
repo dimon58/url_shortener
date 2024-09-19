@@ -69,7 +69,7 @@ server {
   server_name example.com;
   set $upstream_backend_url_shortener http://127.0.0.1:8090;
 
-  location ~ ^/(click|generate)/ {
+  location ~ ^/(click|generate) {
     proxy_pass          $upstream_backend_url_shortener;
     proxy_set_header    Host $host;
     proxy_set_header    X-Real-IP $remote_addr;
