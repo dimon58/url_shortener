@@ -44,19 +44,23 @@
 
 ```nginx configuration
 server {
+  access_log /var/log/nginx/url-shortener-access.log;
+  error_log /var/log/nginx/url-shortener-errors.log;
+
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
   ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 
   server_name example.com;
+  set $upstream_backend_url_shortener http://127.0.0.1:8090;
 
   location ~ ^/(click|generate)/ {
-      proxy_pass          http://localhost:8090;
-      proxy_set_header    Host $host;
-      proxy_set_header    X-Real-IP $remote_addr;
-      proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header    X-Forwarded-Proto $scheme;
+    proxy_pass          $upstream_backend_url_shortener;
+    proxy_set_header    Host $host;
+    proxy_set_header    X-Real-IP $remote_addr;
+    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto $scheme;
   }
 }
 ```
