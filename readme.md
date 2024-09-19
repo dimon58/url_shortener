@@ -6,9 +6,23 @@
 
 ## Запуск
 
-1. Настраиваем `BASE_URL` в `configs.py`. Это будет путь до сокращенных ссылок
+1. Настраиваем переменное окружение в файле `.env`
 
-2. Создаем виртуальное окружение python
+   ```dotenv
+   BASE_URL=https://example.com
+   DB_URL=postgresql+asyncpg://user:password@host:port/db_name
+   ```
+   
+   Или можно использовать настройки по умолчанию, которые эквивалентны
+
+   ```dotenv
+   BASE_URL=
+   DB_URL=sqlite+aiosqlite:///db.sqlite3
+   ```
+
+2. Настраиваем `BASE_URL` в `configs.py`. Это будет путь до сокращенных ссылок
+
+3. Создаем виртуальное окружение python
 
    Для Windows:
 
@@ -24,17 +38,17 @@
    source venv/bin/activate
    ```
 
-3. Устанавливаем зависимости
+4. Устанавливаем зависимости
 
    ```shell
    pip install -r requirements.txt
    ```
 
-4. Применяем миграции `alembic upgrade head`
+5. Применяем миграции `alembic upgrade head`
 
-5. [Устанавливаем pm2](https://pm2.keymetrics.io/)
+6. [Устанавливаем pm2](https://pm2.keymetrics.io/)
 
-6. `pm2 start main.py --interpreter=venv/bin/python`
+7. `pm2 start main.py --interpreter=venv/bin/python`
 
 ## Настройка nginx
 

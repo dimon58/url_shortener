@@ -10,7 +10,7 @@ load_dotenv(".env", override=False)
 DEBUG = False
 BASE_DIR = Path(__file__).resolve().parent
 
-BASE_URL = ""
+BASE_URL = os.environ.get("BASE_URL", "")
 REDIRECT_PATH = "click"
 
 DB_URL = os.environ.get("DB_URL", "sqlite+aiosqlite:///db.sqlite3")
