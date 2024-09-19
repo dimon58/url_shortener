@@ -4,6 +4,7 @@ DEBUG = False
 BASE_DIR = Path(__file__).resolve().parent
 
 BASE_URL = ""
+REDIRECT_PATH = "click"
 
 DB_URL = "sqlite+aiosqlite:///db.sqlite3"
 URL_LENGTH = 6  # 62**6 = 56800235584 unique urls

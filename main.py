@@ -2,9 +2,9 @@ import logging.config
 
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import RedirectResponse, Response
+from fastapi.responses import RedirectResponse, PlainTextResponse
 
-from configs import DEBUG, LOGGING_CONFIG, BASE_URL
+from configs import DEBUG, LOGGING_CONFIG, BASE_URL, REDIRECT_PATH
 from db import async_session_maker
 from models import ShortUrl, Click
 
@@ -13,18 +13,18 @@ logging.config.dictConfig(LOGGING_CONFIG)
 app = FastAPI(debug=DEBUG)
 
 
-@app.get("/generate")
-async def generate_short_url(url: str, request: Request):
+@app.get("/generate", response_class=PlainTextResponse)
+async def generate_short_url(url: str, request: Request) -> PlainTextResponse:
     meta = dict(request.query_params)
     meta.pop("url")
     async with async_session_maker() as db_session, db_session.begin():
         short_path = await ShortUrl.generate(db_session, url, meta)
-        short_url = f"{BASE_URL}/go/{short_path}"
+        short_url = f"{BASE_URL}/{REDIRECT_PATH}/{short_path}"
 
-        return Response(status_code=200, content=short_url)
+        return PlainTextResponse(status_code=200, content=short_url)
 
 
-@app.get("/go/{path}")
+@app.get(f"/{REDIRECT_PATH}/{{path}}")
 async def redirect(path: str, request: Request):
     async with async_session_maker() as db_session, db_session.begin():
         short_url = await ShortUrl.get_full_url(db_session, path)
